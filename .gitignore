@@ -1,4 +1,6 @@
 hfg
 
+output*
+
 .env
-test/idphoto.jpeg
+test/idphoto.jpg

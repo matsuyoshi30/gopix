@@ -33,18 +33,27 @@ func main() {
 		convertToJpeg(filename, output)
 
 		// input を Face API へ
-		faceRect, err := detect.Detect(output)
+		faceInfo, err := detect.Detect(output)
 		logError(err)
 
 		mul := false
-		if len(faceRect) > 1 {
+		if len(faceInfo) > 1 {
 			mul = true
 		}
 
-		for k, R := range faceRect {
-			// 帰ってきた json から顔領域をモザイク
-			err = imgprocess.Pixelate(output, R, mul, k)
-			logError(err)
+		for k, R := range faceInfo {
+			s := fmt.Sprintf("%f", R.FaceAttributes.Emotion.Happiness)
+			fmt.Println("Happiness Value is " + s)
+			if R.FaceAttributes.Emotion.Happiness >= 0.25 {
+				// 帰ってきた json から顔領域をモザイク
+				err = imgprocess.Pixelate(output, R, mul, k)
+				logError(err)
+
+				fmt.Println("=> CLEAR")
+			} else {
+				fmt.Println("=> PIXELATED")
+			}
+			fmt.Println("=> OPEN " + output)
 		}
 	}
 }

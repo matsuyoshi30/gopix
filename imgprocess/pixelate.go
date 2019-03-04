@@ -10,7 +10,7 @@ import (
 	"hfg/model"
 )
 
-func Pixelate(output string, faceRect model.FaceRect, multi bool, cnt int) error {
+func Pixelate(output string, faceInfo model.FaceInfo, multi bool, cnt int) error {
 	file, err := os.Open(output)
 	if err != nil {
 		return err
@@ -38,11 +38,11 @@ func Pixelate(output string, faceRect model.FaceRect, multi bool, cnt int) error
 	// TODO: モザイクの粒度をモザイク領域の大きさから算出する
 	block := 11
 
-	min_y := faceRect.FaceRectangle.Top - 15
-	min_x := faceRect.FaceRectangle.Left - 15
+	min_y := faceInfo.FaceRectangle.Top - 15
+	min_x := faceInfo.FaceRectangle.Left - 15
 
-	h := faceRect.FaceRectangle.Height + 15
-	w := faceRect.FaceRectangle.Width + 15
+	h := faceInfo.FaceRectangle.Height + 15
+	w := faceInfo.FaceRectangle.Width + 15
 	max_y := min_y + h
 	max_x := min_x + w
 

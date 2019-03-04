@@ -12,11 +12,11 @@ import (
 	"hfg/model"
 )
 
-func Detect(output string) ([]model.FaceRect, error) {
+func Detect(output string) ([]model.FaceInfo, error) {
 	uriBase := os.Getenv("URL")
 	subscriptionKey := os.Getenv("KEY1")
 
-	const params = "?returnFaceId=true"
+	const params = "?returnFaceId=true&returnFaceAttributes=emotion"
 	uri := uriBase + "/detect" + params
 
 	// Decode image
@@ -48,13 +48,17 @@ func Detect(output string) ([]model.FaceRect, error) {
 		return nil, err
 	}
 
-	var faceRect []model.FaceRect
-	err = json.Unmarshal(data, &faceRect)
+	var faceInfo []model.FaceInfo
+	err = json.Unmarshal(data, &faceInfo)
 	if err != nil {
 		return nil, err
 	}
 
-	return faceRect, nil
+	// Format and display the Json result
+	// jsonFormatted, _ := json.MarshalIndent(faceInfo, "", "  ")
+	// fmt.Println(string(jsonFormatted))
+
+	return faceInfo, nil
 }
 
 func jpegToBin(imgpath string) ([]byte, error) {
