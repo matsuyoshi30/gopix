@@ -42,19 +42,19 @@ func main() {
 		}
 
 		for k, R := range faceInfo {
-			s := fmt.Sprintf("%f", R.FaceAttributes.Emotion.Happiness)
-			fmt.Println("Happiness Value is " + s)
-			if R.FaceAttributes.Emotion.Happiness >= 0.25 {
+			s := fmt.Sprintf("[FACE ID]%s: Happiness Value is %f", R.FaceId, R.FaceAttributes.Emotion.Happiness)
+			fmt.Println(s)
+			if R.FaceAttributes.Emotion.Happiness < 0.5 {
 				// 帰ってきた json から顔領域をモザイク
 				err = imgprocess.Pixelate(output, R, mul, k)
 				logError(err)
 
-				fmt.Println("=> CLEAR")
-			} else {
 				fmt.Println("=> PIXELATED")
+			} else {
+				fmt.Println("=> CLEAR")
 			}
-			fmt.Println("=> OPEN " + output)
 		}
+		fmt.Println("=> OPEN " + output)
 	}
 }
 

@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
-	"time"
 
 	"hfg/model"
 )
@@ -25,9 +24,7 @@ func Detect(output string) ([]model.FaceInfo, error) {
 		return nil, err
 	}
 
-	client := &http.Client{
-		Timeout: time.Second * 2,
-	}
+	client := &http.Client{}
 
 	req, err := http.NewRequest("POST", uri, bytes.NewBuffer(imgBin))
 	if err != nil {
