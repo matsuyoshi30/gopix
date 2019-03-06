@@ -35,8 +35,7 @@ func Pixelate(output string, faceInfo model.FaceInfo, multi bool, cnt int) error
 
 	bounds := img.Bounds()
 	dest := image.NewRGBA(bounds)
-	// TODO: モザイクの粒度をモザイク領域の大きさから算出する
-	block := 11
+	block := (faceInfo.FaceRectangle.Width + 15) / 10
 
 	min_y := faceInfo.FaceRectangle.Top - 15
 	min_x := faceInfo.FaceRectangle.Left - 15
