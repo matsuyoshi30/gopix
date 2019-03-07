@@ -35,13 +35,14 @@ func Pixelate(output string, faceInfo model.FaceInfo, multi bool, cnt int) error
 
 	bounds := img.Bounds()
 	dest := image.NewRGBA(bounds)
-	block := (faceInfo.FaceRectangle.Width + 15) / 10
 
-	min_y := faceInfo.FaceRectangle.Top - 15
-	min_x := faceInfo.FaceRectangle.Left - 15
+	min_y := faceInfo.FaceRectangle.Top - 5
+	min_x := faceInfo.FaceRectangle.Left - 5
 
-	h := faceInfo.FaceRectangle.Height + 15
-	w := faceInfo.FaceRectangle.Width + 15
+	h := (faceInfo.FaceRectangle.Height/10)*10 + 10
+	w := (faceInfo.FaceRectangle.Width/10)*10 + 10
+	block := w / 10
+
 	max_y := min_y + h
 	max_x := min_x + w
 
