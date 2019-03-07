@@ -33,5 +33,9 @@ $ go build hfg.go
 $ ./hfg [path/to/image]
 ```
 
-Output image is named `output_[yyyymmddhhmmss].jpeg`. 
+Output image is named `output_[yyyymmddhhmmss].jpeg`.  
+
+This is `./hfg test/Lena.png` result.  
+
+![](./test/Lena_output.jpeg)
 
