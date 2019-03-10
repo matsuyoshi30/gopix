@@ -46,12 +46,12 @@ func Pixelate(output string, faceInfo model.FaceInfo, multi bool, cnt int) error
 	max_y := min_y + h
 	max_x := min_x + w
 
-	for y := min_y + (block-1)/2; y < max_y; y = y + block {
-		for x := min_x + (block-1)/2; x < max_x; x = x + block {
+	for y := min_y; y < max_y; y = y + block {
+		for x := min_x; x < max_x; x = x + block {
 			var cr, cg, cb float32
 			var alpha uint8
-			for j := y - (block-1)/2; j <= y+(block-1)/2; j++ {
-				for i := x - (block-1)/2; i <= x+(block-1)/2; i++ {
+			for j := y; j < y+block; j++ {
+				for i := x; i < x+block; i++ {
 					if i >= 0 && j >= 0 && i < max_x && j < max_y {
 						c := color.RGBAModel.Convert(img.At(i, j))
 						col := c.(color.RGBA)
@@ -65,8 +65,8 @@ func Pixelate(output string, faceInfo model.FaceInfo, multi bool, cnt int) error
 			cr = cr / float32(block*block)
 			cg = cg / float32(block*block)
 			cb = cb / float32(block*block)
-			for j := y - (block-1)/2; j <= y+(block-1)/2; j++ {
-				for i := x - (block-1)/2; i <= x+(block-1)/2; i++ {
+			for j := y; j < y+block; j++ {
+				for i := x; i < x+block; i++ {
 					if i >= 0 && j >= 0 && i < max_x && j < max_y {
 						dest.Set(i, j, color.RGBA{uint8(cr), uint8(cg), uint8(cb), alpha})
 					}
