@@ -24,7 +24,7 @@ KEY2=[Your SubscriptionKey]
 3. Build.
 
 ```
-$ go build hfg.go
+$ go build
 ```
 
 4. Run command.
