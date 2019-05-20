@@ -1,41 +1,35 @@
-# Happiness Filter in Go
+# Pixelate Face written in Go
 
-### Installation
+### Requirement
 
-- Go
-- [Face API in Azure](https://azure.microsoft.com/ja-jp/services/cognitive-services/face/)
+- [Go](https://golang.org/dl/)
+- [GoCV and OpenCV](https://gocv.io/getting-started/)
 
 ### Usage
 
 1. `go get` this repository.
 
 ```
-$ go get github.com/matsuyoshi30/hfg
+$ go get -u github.com/matsuyoshi30/hfg
 ```
 
-2. Write env file.
-
-```.env
-URL=https://[location].api.cognitive.microsoft.com/face/v1.0
-KEY1=[Your SubscriptionKey]
-KEY2=[Your SubscriptionKey]
-```
-
-3. Build.
-
-```
-$ go build
-```
-
-4. Run command.
+2. Run command.
 
 ```
 $ ./hfg [path/to/image]
 ```
 
-Output image is named `output_[yyyymmddhhmmss].jpeg`.  
+Output image is named `output_[yyyymmddhhmmss].jpeg`.
 
-This is `./hfg test/Lena.png` result.  
+This is `./hfg test/Lena.png` result.
 
 ![](./test/Lena_output.jpeg)
 
+
+### Thanks
+
+Thanks to developers of [GoCV](https://gocv.io/).
+
+### License
+
+[Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).

@@ -1,79 +1,43 @@
 package detect
 
 import (
-	"bytes"
-	"encoding/json"
-	"image/jpeg"
-	"io/ioutil"
-	"net/http"
-	"os"
-
 	"hfg/model"
+
+	"gocv.io/x/gocv"
 )
 
 func Detect(output string) ([]model.FaceInfo, error) {
-	uriBase := os.Getenv("URL")
-	subscriptionKey := os.Getenv("KEY1")
+	img := gocv.IMRead(output, gocv.IMReadColor)
+	if img.Empty() {
+		// TODO: error handling
+		return nil, nil
+	}
+	defer img.Close()
 
-	const params = "?returnFaceId=true&returnFaceAttributes=emotion"
-	uri := uriBase + "/detect" + params
+	// load classifier to recognize faces
+	classifier := gocv.NewCascadeClassifier()
+	defer classifier.Close()
 
-	// Decode image
-	imgBin, err := jpegToBin(output)
-	if err != nil {
-		return nil, err
+	classifier.Load("data/haarcascade_frontalface_default.xml")
+
+	rects := classifier.DetectMultiScale(img)
+	if len(rects) == 0 {
+		// TODO: couldn't find face
+		return nil, nil
 	}
 
-	client := &http.Client{}
+	fi := make([]model.FaceInfo, 0)
+	for i, r := range rects {
+		f := model.FaceInfo{
+			FaceId: i,
+		}
+		f.FaceRectangle.Top = r.Min.Y
+		f.FaceRectangle.Left = r.Min.X
+		f.FaceRectangle.Width = r.Max.X - r.Min.X
+		f.FaceRectangle.Height = r.Max.Y - r.Min.Y
 
-	req, err := http.NewRequest("POST", uri, bytes.NewBuffer(imgBin))
-	if err != nil {
-		return nil, err
+		fi = append(fi, f)
 	}
 
-	req.Header.Add("Content-Type", "application/octet-stream")
-	req.Header.Add("Ocp-Apim-Subscription-Key", subscriptionKey)
-
-	resp, err := client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-
-	data, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	var faceInfo []model.FaceInfo
-	err = json.Unmarshal(data, &faceInfo)
-	if err != nil {
-		return nil, err
-	}
-
-	// Format and display the Json result
-	// jsonFormatted, _ := json.MarshalIndent(faceInfo, "", "  ")
-	// fmt.Println(string(jsonFormatted))
-
-	return faceInfo, nil
-}
-
-func jpegToBin(imgpath string) ([]byte, error) {
-	buf := new(bytes.Buffer)
-
-	imgfile, err := os.Open(imgpath)
-	if err != nil {
-		return buf.Bytes(), err
-	}
-
-	img, err := jpeg.Decode(imgfile)
-	if err != nil {
-		return buf.Bytes(), err
-	}
-
-	if err = jpeg.Encode(buf, img, nil); err != nil {
-		return buf.Bytes(), err
-	}
-
-	return buf.Bytes(), nil
+	return fi, nil
 }
