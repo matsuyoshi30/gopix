@@ -10,7 +10,6 @@ import (
 	"time"
 
 	"hfg/detect"
-	"hfg/env"
 	"hfg/imgprocess"
 )
 
@@ -19,9 +18,6 @@ func main() {
 		fmt.Fprintf(os.Stderr, "%s: wrong argument\n", os.Args[0])
 		os.Exit(1)
 	} else {
-		err := env.Loadenv()
-		logError(err)
-
 		// input のファイル名を取得する
 		filename := os.Args[1]
 
@@ -42,17 +38,11 @@ func main() {
 		}
 
 		for k, R := range faceInfo {
-			s := fmt.Sprintf("[FACE ID]%s: Happiness Value is %f", R.FaceId, R.FaceAttributes.Emotion.Happiness)
-			fmt.Println(s)
-			if R.FaceAttributes.Emotion.Happiness < 0.5 {
-				// 帰ってきた json から顔領域をモザイク
-				err = imgprocess.Pixelate(output, R, mul, k)
-				logError(err)
-
-				fmt.Println("=> PIXELATED")
-			} else {
-				fmt.Println("=> CLEAR")
-			}
+			fmt.Printf("[FACE ID]%04d ", R.FaceId)
+			// 帰ってきた json から顔領域をモザイク
+			err = imgprocess.Pixelate(output, R, mul, k)
+			logError(err)
+			fmt.Println("=> PIXELATED")
 		}
 		fmt.Println("=> OPEN " + output)
 	}
