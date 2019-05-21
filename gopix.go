@@ -9,8 +9,8 @@ import (
 	"os"
 	"time"
 
-	"hfg/detect"
-	"hfg/imgprocess"
+	"gopix/detect"
+	"gopix/imgprocess"
 )
 
 func main() {
@@ -39,7 +39,6 @@ func main() {
 
 		for k, R := range faceInfo {
 			fmt.Printf("[FACE ID]%04d ", R.FaceId)
-			// 帰ってきた json から顔領域をモザイク
 			err = imgprocess.Pixelate(output, R, mul, k)
 			logError(err)
 			fmt.Println("=> PIXELATED")

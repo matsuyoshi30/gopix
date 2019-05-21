@@ -1,7 +1,7 @@
 package detect
 
 import (
-	"hfg/model"
+	"gopix/model"
 
 	"gocv.io/x/gocv"
 )

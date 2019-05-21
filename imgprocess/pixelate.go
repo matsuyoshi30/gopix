@@ -7,7 +7,7 @@ import (
 	"image/jpeg"
 	"os"
 
-	"hfg/model"
+	"gopix/model"
 )
 
 func Pixelate(output string, faceInfo model.FaceInfo, multi bool, cnt int) error {

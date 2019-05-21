@@ -1,4 +1,4 @@
-module hfg
+module gopix
 
 go 1.12
 
