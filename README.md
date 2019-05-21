@@ -16,12 +16,12 @@ $ go get -u github.com/matsuyoshi30/gopix
 2. Run command.
 
 ```
-$ ./gopix [path/to/image]
+$ gopix [path/to/image]
 ```
 
 Output image is named `output_[yyyymmddhhmmss].jpeg`.
 
-This is `./hfg test/Lena.png` result.
+This is `gopix test/Lena.png` result.
 
 ![](./test/Lena_output.jpeg)
 
