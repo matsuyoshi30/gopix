@@ -1,4 +1,4 @@
-module github.com/matsuyoshi30/gopix
+module gopix
 
 go 1.12
 

@@ -1,4 +1,4 @@
-package imgprocess
+package main
 
 import (
 	"image"
@@ -6,11 +6,9 @@ import (
 	"image/draw"
 	"image/jpeg"
 	"os"
-
-	"gopix/model"
 )
 
-func Pixelate(output string, faceInfo model.FaceInfo, multi bool, cnt int) error {
+func Pixelate(output string, faceInfo FaceInfo, multi bool, cnt int) error {
 	file, err := os.Open(output)
 	if err != nil {
 		return err

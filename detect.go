@@ -1,12 +1,10 @@
-package detect
+package main
 
 import (
-	"gopix/model"
-
 	"gocv.io/x/gocv"
 )
 
-func Detect(output string) ([]model.FaceInfo, error) {
+func Detect(output string) ([]FaceInfo, error) {
 	img := gocv.IMRead(output, gocv.IMReadColor)
 	if img.Empty() {
 		// TODO: error handling
@@ -26,9 +24,9 @@ func Detect(output string) ([]model.FaceInfo, error) {
 		return nil, nil
 	}
 
-	fi := make([]model.FaceInfo, 0)
+	fi := make([]FaceInfo, 0)
 	for i, r := range rects {
-		f := model.FaceInfo{
+		f := FaceInfo{
 			FaceId: i,
 		}
 		f.FaceRectangle.Top = r.Min.Y

@@ -25,6 +25,9 @@ This is `gopix test/Lena.png` result.
 
 ![](./test/Lena_output.jpeg)
 
+You can pixelate a lot of faces in one pic.
+
+![](./test/japankantei_output.jpeg)
 
 ### Thanks
 

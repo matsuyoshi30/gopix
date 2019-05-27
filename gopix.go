@@ -8,9 +8,6 @@ import (
 	"log"
 	"os"
 	"time"
-
-	"gopix/detect"
-	"gopix/imgprocess"
 )
 
 func main() {
@@ -28,8 +25,7 @@ func main() {
 		// input が .jpeg でない場合は、 .jpeg に変換
 		convertToJpeg(filename, output)
 
-		// input を Face API へ
-		faceInfo, err := detect.Detect(output)
+		faceInfo, err := Detect(output)
 		logError(err)
 
 		mul := false
@@ -39,7 +35,7 @@ func main() {
 
 		for k, R := range faceInfo {
 			fmt.Printf("[FACE ID]%04d ", R.FaceId)
-			err = imgprocess.Pixelate(output, R, mul, k)
+			err = Pixelate(output, R, mul, k)
 			logError(err)
 			fmt.Println("=> PIXELATED")
 		}
